@@ -55,10 +55,10 @@ class DT_coaching_checklist {
          * This restricts endpoints defined in this plugin this namespace
          */
 //        require_once( 'includes/dt-hooks.php' );
-        $is_rest = dt_is_rest();
-        if ( !$is_rest || strpos( dt_get_url_path(), self::$rest_namespace ) !== false ){
+//        $is_rest = dt_is_rest();
+//        if ( !$is_rest || strpos( dt_get_url_path(), self::$rest_namespace ) !== false ){
           //call functions
-        }
+//        }
         $this->plugin_hooks();
     }
 
