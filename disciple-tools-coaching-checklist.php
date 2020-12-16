@@ -75,10 +75,10 @@ class DT_coaching_checklist {
         function dt_contact_fields( array $fields, string $post_type = ""){
             if ( $post_type === "contacts" ){
                 $options = [
-                    "model" => [ "label" => __( "M", 'disciple_tools' ) ],
-                    "assist" => [ "label" => __( "A", 'disciple_tools' ) ],
-                    "watch" => [ "label" => __( "W", 'disciple_tools' ) ],
-                    "leave" => [ "label" => __( "L", 'disciple_tools' ) ],
+                    "model" => [ "label" => __( "H", 'disciple_tools' ) ],
+                    "assist" => [ "label" => __( "O", 'disciple_tools' ) ],
+                    "watch" => [ "label" => __( "S", 'disciple_tools' ) ],
+                    "leave" => [ "label" => __( "T", 'disciple_tools' ) ],
                 ];
 
                 $coaching_checklist_items = [
