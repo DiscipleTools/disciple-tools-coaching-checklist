@@ -21,9 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'after_setup_theme', function (){
-  new DT_coaching_checklist();
+    new DT_Coaching_Checklist();
 });
-class DT_coaching_checklist {
+
+class DT_Coaching_Checklist{
     public static $required_dt_theme_version = '1.0.0';
     public static $rest_namespace = null; //use if you have custom rest endpoints on this plugin
     public static $plugin_name = "Coaching Checklist";
@@ -75,38 +76,38 @@ class DT_coaching_checklist {
         function dt_contact_fields( array $fields, string $post_type = ""){
             if ( $post_type === "contacts" ){
                 $options = [
-                    "model" => [ "label" => __( "H", 'disciple_tools' ) ],
-                    "assist" => [ "label" => __( "O", 'disciple_tools' ) ],
-                    "watch" => [ "label" => __( "S", 'disciple_tools' ) ],
-                    "leave" => [ "label" => __( "T", 'disciple_tools' ) ],
+                    "model" => [ "label" => _x( "H", "Coaching Checklist Initial for: Heard", 'disciple_tools' ) ],
+                    "assist" => [ "label" => _x( "O", "Coaching Checklist Initial for: Obeyed", 'disciple_tools' ) ],
+                    "watch" => [ "label" => _x( "S", "Coaching Checklist Initial for: Shared", 'disciple_tools' ) ],
+                    "leave" => [ "label" => _x( "T", "Coaching Checklist Initial for: Trained", 'disciple_tools' ) ],
                 ];
 
                 $coaching_checklist_items = [
-                    "Duckling Discipleship" => __( "Duckling Discipleship", 'disciple_tools' ),
-                    "Tell Your Story (testimony)" => __( "Tell Your Story (testimony)", 'disciple_tools' ),
-                    "Tell God's Story (gospel)" => __( "Tell God's Story (gospel)", 'disciple_tools' ),
-                    "List of 100" => __( "List of 100", 'disciple_tools' ),
-                    "Pace" => __( "Pace", 'disciple_tools' ),
-                    "Non-Sequential Ministry" => __( "Non-Sequential Ministry", 'disciple_tools' ),
-                    "3/3 Group Format" => __( "3/3 Group Format", 'disciple_tools' ),
-                    "Simple Church" => __( "Simple Church", 'disciple_tools' ),
-                    "Being Part of Two Churches" => __( "Being Part of Two Churches", 'disciple_tools' ),
-                    "Training Cycle" => __( "Training Cycle", 'disciple_tools' ),
-                    "Accountability Groups" => __( "Accountability Groups", 'disciple_tools' ),
-                    "SOAPS" => __( "SOAPS", 'disciple_tools' ),
-                    "Prayer Wheel" => __( "Prayer Wheel", 'disciple_tools' ),
-                    "Spiritual Breathing" => __( "Spiritual Breathing", 'disciple_tools' ),
-                    "Persecution & Suffering" => __( "Persecution & Suffering", 'disciple_tools' ),
-                    "Eyes to See Where the Kingdom Isn't" => __( "Eyes to See Where the Kingdom Isn't", 'disciple_tools' ),
-                    "Person of Peace" => __( "Person of Peace", 'disciple_tools' ),
-                    "Prayer Walking" => __( "Prayer Walking", 'disciple_tools' ),
-                    "Baptism" => __( "Baptism", 'disciple_tools' ),
-                    "Lord's Supper" => __( "Lord's Supper", 'disciple_tools' ),
-                    "Coaching Checklist" => __( "Coaching Checklist", 'disciple_tools' ),
-                    "Leadership Cells" => __( "Leadership Cells", 'disciple_tools' ),
-                    "Peer Mentoring Group" => __( "Peer Mentoring Group", 'disciple_tools' ),
-                    "Four Fields Tool" => __( "Four Fields Tool", 'disciple_tools' ),
-                    "Generational Mapping" => __( "Generational Mapping", 'disciple_tools' ),
+                    "Duckling Discipleship" => _x( "Duckling Discipleship", "coaching checklist", 'disciple_tools' ),
+                    "Tell Your Story (testimony)" => _x( "Tell Your Story (testimony)", "coaching checklist", 'disciple_tools' ),
+                    "Tell God's Story (gospel)" => _x( "Tell God's Story (gospel)", "coaching checklist", 'disciple_tools' ),
+                    "List of 100" => _x( "List of 100", "coaching checklist", 'disciple_tools' ),
+                    "Pace" => _x( "Pace", "coaching checklist", 'disciple_tools' ),
+                    "Non-Sequential Ministry" => _x( "Non-Sequential Ministry", "coaching checklist", 'disciple_tools' ),
+                    "3/3 Group Format" => _x( "3/3 Group Format", "coaching checklist", 'disciple_tools' ),
+                    "Simple Church" => _x( "Simple Church", "coaching checklist", 'disciple_tools' ),
+                    "Being Part of Two Churches" => _x( "Being Part of Two Churches", "coaching checklist", 'disciple_tools' ),
+                    "Training Cycle" => _x( "Training Cycle", "coaching checklist", 'disciple_tools' ),
+                    "Accountability Groups" => _x( "Accountability Groups", "coaching checklist", 'disciple_tools' ),
+                    "SOAPS" => _x( "SOAPS", "coaching checklist", 'disciple_tools' ),
+                    "Prayer Wheel" => _x( "Prayer Wheel", "coaching checklist", 'disciple_tools' ),
+                    "Spiritual Breathing" => _x( "Spiritual Breathing", "coaching checklist", 'disciple_tools' ),
+                    "Persecution & Suffering" => _x( "Persecution & Suffering", "coaching checklist", 'disciple_tools' ),
+                    "Eyes to See Where the Kingdom Isn't" => _x( "Eyes to See Where the Kingdom Isn't", "coaching checklist", 'disciple_tools' ),
+                    "Person of Peace" => _x( "Person of Peace", "coaching checklist", 'disciple_tools' ),
+                    "Prayer Walking" => _x( "Prayer Walking", "coaching checklist", 'disciple_tools' ),
+                    "Baptism" => _x( "Baptism", "coaching checklist", 'disciple_tools' ),
+                    "Lord's Supper" => _x( "Lord's Supper", "coaching checklist", 'disciple_tools' ),
+                    "Coaching Checklist" => _x( "Coaching Checklist", "coaching checklist", 'disciple_tools' ),
+                    "Leadership Cells" => _x( "Leadership Cells", "coaching checklist", 'disciple_tools' ),
+                    "Peer Mentoring Group" => _x( "Peer Mentoring Group", "coaching checklist", 'disciple_tools' ),
+                    "Four Fields Tool" => _x( "Four Fields Tool", "coaching checklist", 'disciple_tools' ),
+                    "Generational Mapping" => _x( "Generational Mapping", "coaching checklist", 'disciple_tools' ),
                 ];
                 foreach ( $coaching_checklist_items as $item_key => $item_label ){
                     $fields["coaching_checklist_" . dt_create_field_key( $item_key ) ] = [
@@ -124,58 +125,59 @@ class DT_coaching_checklist {
         }
         add_action( "dt_details_additional_section", "dt_add_section", 30, 2 );
         function dt_add_section( $section, $post_type ) {
-        if ( $section === "coaching_checklist" && $post_type === "contacts" ) {
-            $post_fields = DT_Posts::get_post_field_settings( $post_type );
-            $post = DT_Posts::get_post( $post_type, get_the_ID() );
+            if ( $section === "coaching_checklist" && $post_type === "contacts" ) {
+                $post_fields = DT_Posts::get_post_field_settings( $post_type );
+                $post = DT_Posts::get_post( $post_type, get_the_ID() );
 
-            $total_done = 0;
-            $total = 0;
-            foreach ($post_fields as $field_key => $field_options ) {
-                if ( isset( $field_options["tile"] ) && $field_options["tile"] === "coaching_checklist" ) {
-                    $total += sizeof( $field_options["default"] );
-                    if ( isset( $post[$field_key])){
-                      $total_done += sizeof( $post[$field_key]);
+                $total_done = 0;
+                $total = 0;
+                foreach ($post_fields as $field_key => $field_options ) {
+                    if ( isset( $field_options["tile"] ) && $field_options["tile"] === "coaching_checklist" ) {
+                        $total += sizeof( $field_options["default"] );
+                        if ( isset( $post[$field_key] ) ){
+                            $total_done += sizeof( $post[$field_key] );
+                        }
                     }
                 }
-            }
-            ?>
-            <p><?php esc_html_e( 'Completed', 'disciple_tools' ); ?> <?php echo esc_html( $total_done ); ?>/<?php echo esc_html( $total ); ?></p>
-            <?php
+                ?>
+                <p><?php esc_html_e( 'Completed', 'disciple_tools' ); ?> <?php echo esc_html( $total_done ); ?>/<?php echo esc_html( $total ); ?></p>
+                <?php
 
-            foreach ($post_fields as $field_key => $field_options ) :
-                if ( isset( $field_options["tile"] ) && $field_options["tile"] === "coaching_checklist" ) :
-                    $post_fields[$field_key]["hidden"] = false;
-                    $post_fields[$field_key]["custom_display"] = false;
+                foreach ($post_fields as $field_key => $field_options ) :
+                    if ( isset( $field_options["tile"] ) && $field_options["tile"] === "coaching_checklist" ) :
+                        $post_fields[$field_key]["hidden"] = false;
+                        $post_fields[$field_key]["custom_display"] = false;
 
-                    ?>
-                    <div style="display: flex">
-                        <div style="flex-grow: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
-                            <?php echo esc_html( $field_options["name"] ); ?>
-                        </div>
-                        <div style="">
-                            <div class="small button-group" style="display: inline-block; margin-bottom: 5px">
-                                <?php foreach ( $post_fields[$field_key]["default"] as $option_key => $option_value ): ?>
-                                    <?php
-                                    $class = ( in_array( $option_key, $post[$field_key] ?? [] ) ) ?
-                                        "selected-select-button" : "empty-select-button"; ?>
-                                  <button id="<?php echo esc_html( $option_key ) ?>" type="button" data-field-key="<?php echo esc_html( $field_key ); ?>"
-                                          class="dt_multi_select <?php echo esc_html( $class ) ?> select-button button " style="padding:5px">
-                                      <?php echo esc_html( $post_fields[$field_key]["default"][$option_key]["label"] ) ?>
-                                  </button>
-                                <?php endforeach; ?>
+                        ?>
+                        <div style="display: flex">
+                            <div style="flex-grow: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
+                                <?php echo esc_html( $field_options["name"] ); ?>
+                            </div>
+                            <div style="">
+                                <div class="small button-group" style="display: inline-block; margin-bottom: 5px">
+                                    <?php foreach ( $post_fields[$field_key]["default"] as $option_key => $option_value ): ?>
+                                        <?php
+                                        $class = ( in_array( $option_key, $post[$field_key] ?? [] ) ) ?
+                                            "selected-select-button" : "empty-select-button"; ?>
+                                      <button id="<?php echo esc_html( $option_key ) ?>" type="button" data-field-key="<?php echo esc_html( $field_key ); ?>"
+                                              class="dt_multi_select <?php echo esc_html( $class ) ?> select-button button " style="padding:5px">
+                                          <?php echo esc_html( $post_fields[$field_key]["default"][$option_key]["label"] ) ?>
+                                      </button>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <?php endif;
-                endforeach; ?>
+                        <?php endif;
+                    endforeach; ?>
 
         <?php }
         }
     }
-    function dt_plugin_hook_admin_notice() {
+
+    public function dt_plugin_hook_admin_notice(){
         $wp_theme = wp_get_theme();
         $current_version = $wp_theme->version;
-        $message = __( "'Disciple Tools - " . self::$plugin_name . "' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.", "dt_plugin" );
+        $message = "'Disciple Tools - " . self::$plugin_name . "' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.";
         if ( strpos( $wp_theme->get_template(), "disciple-tools-theme" ) !== false || $wp_theme->name === "Disciple Tools" ) {
             $message .= sprintf( esc_html__( 'Current Disciple Tools version: %1$s, required version: %2$s', 'dt_plugin' ), esc_html( $current_version ), esc_html( self::$required_dt_theme_version ) );
         }
