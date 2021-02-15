@@ -4,3 +4,6 @@
 
 ## Purpose
 A tile to track the progress of a contact using the coaching checklist. Inspired by Zume's coaching chekclist: https://zume.training/coaching-checklist/
+
+## Screenshot
+![list](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/images/tile.png)
