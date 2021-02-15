@@ -2,8 +2,10 @@
 /**
  * Plugin Name: Disciple Tools - Coaching Checklist
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-coaching-checklist
- * Description: Coaching Checklist Inspired by Zume
- * Version:  0.1.0
+ * Description: Disciple Tools - Coaching Checklist is intended to help developers and integrator jumpstart their extension of the Disciple Tools system.
+ * Text Domain: disciple-tools-coaching-checklist
+ * Domain Path: /languages
+ * Version:  0.1
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-coaching-checklist
  * Requires at least: 4.7.0
@@ -16,201 +18,220 @@
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
 
+/**
+ * Refactoring (renaming) this plugin as your own:
+ * 1. @todo Refactor all occurrences of the name DT_Coaching_Checklist, dt_coaching_checklist, dt-coaching-checklist, plugin-starter-template, coaching_checklist, and Coaching Checklist
+ * 2. @todo Rename the `disciple-tools-coaching-checklist.php and menu-and-tabs.php files.
+ * 3. @todo Update the README.md and LICENSE
+ * 4. @todo Update the default.pot file if you intend to make your plugin multilingual. Use a tool like POEdit
+ * 5. @todo Change the translation domain to in the phpcs.xml your plugin's domain: @todo
+ * 6. @todo Replace the 'sample' namespace in this and the rest-api.php files
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-add_action( 'after_setup_theme', function (){
-    new DT_Coaching_Checklist();
-});
+/**
+ * Gets the instance of the `DT_Coaching_Checklist` class.
+ *
+ * @since  0.1
+ * @access public
+ * @return object|bool
+ */
+function dt_coaching_checklist() {
+    $dt_coaching_checklist_required_dt_theme_version = '1.0';
+    $wp_theme = wp_get_theme();
+    $version = $wp_theme->version;
 
-class DT_Coaching_Checklist{
-    public static $required_dt_theme_version = '1.0.0';
-    public static $rest_namespace = null; //use if you have custom rest endpoints on this plugin
-    public static $plugin_name = "Coaching Checklist";
+    /*
+     * Check if the Disciple.Tools theme is loaded and is the latest required version
+     */
+    $is_theme_dt = strpos( $wp_theme->get_template(), "disciple-tools-theme" ) !== false || $wp_theme->name === "Disciple Tools";
+    if ( $is_theme_dt && version_compare( $version, $dt_coaching_checklist_required_dt_theme_version, "<" ) ) {
+        add_action( 'admin_notices', 'dt_coaching_checklist_hook_admin_notice' );
+        add_action( 'wp_ajax_dismissed_notice_handler', 'dt_hook_ajax_notice_handler' );
+        return false;
+    }
+    if ( !$is_theme_dt ){
+        return false;
+    }
+    /**
+     * Load useful function from the theme
+     */
+    if ( !defined( 'DT_FUNCTIONS_READY' ) ){
+        require_once get_template_directory() . '/dt-core/global-functions.php';
+    }
 
+    return DT_Coaching_Checklist::instance();
+}
+add_action( 'after_setup_theme', 'dt_coaching_checklist', 20 );
 
-    public function __construct() {
-        $wp_theme = wp_get_theme();
-        $version = $wp_theme->version;
-        /*
-         * Check if the Disciple.Tools theme is loaded and is the latest required version
-         */
-        $is_theme_dt = strpos( $wp_theme->get_template(), "disciple-tools-theme" ) !== false || $wp_theme->name === "Disciple Tools";
-        if ( $is_theme_dt && version_compare( $version, self::$required_dt_theme_version, "<" ) ) {
-            add_action( 'admin_notices', [ $this, 'dt_plugin_hook_admin_notice' ] );
-            add_action( 'wp_ajax_dismissed_notice_handler', 'dt_hook_ajax_notice_handler' );
-            return false;
+/**
+ * Singleton class for setting up the plugin.
+ *
+ * @since  0.1
+ * @access public
+ */
+class DT_Coaching_Checklist {
+
+    private static $_instance = null;
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
         }
-        if ( !$is_theme_dt ){
-            return false;
-        }
+        return self::$_instance;
+    }
+
+    private function __construct() {
+        require_once( 'tile/custom-tile.php' ); // add custom tile
+
         /**
-         * Load useful function from the theme
+         * To remove: delete the line below and remove the folder named /languages
          */
-        if ( !defined( 'DT_FUNCTIONS_READY' ) ){
-            require_once get_template_directory() . '/dt-core/global-functions.php';
+        $this->i18n();
+
+        if ( is_admin() ){
+            if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+                require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
+            }
+
+            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/version-control.json";
+
+            Puc_v4_Factory::buildUpdateChecker(
+                $hosted_json,
+                __FILE__,
+                'disciple-tools-coaching-checklist' // change this token
+            );
         }
-        /*
-         * Don't load the plugin on every rest request. Only those with the correct namespace
-         * This restricts endpoints defined in this plugin this namespace
-         */
-//        require_once( 'includes/dt-hooks.php' );
-//        $is_rest = dt_is_rest();
-//        if ( !$is_rest || strpos( dt_get_url_path(), self::$rest_namespace ) !== false ){
-          //call functions
-//        }
-        $this->plugin_hooks();
+
+
     }
 
-    private function plugin_hooks(){
-        load_plugin_textdomain( 'disciple-tools-coaching-checklist', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ). 'languages' );
-
-        add_filter( 'dt_details_additional_tiles', 'dt_details_additional_tiles', 10, 2 );
-        function dt_details_additional_tiles( $tiles, $post_type = "" ){
-            if ( $post_type === "contacts" ){
-                $tiles["coaching_checklist"] = [ "label" => __( "Coaching Checklist", 'disciple-tools-coaching-checklist' ) ];
-            }
-            return $tiles;
-        }
-
-        add_filter( "dt_custom_fields_settings", "dt_contact_fields", 1, 2 );
-        function dt_contact_fields( array $fields, string $post_type = ""){
-            if ( $post_type === "contacts" ){
-                $options = [
-                    "model" => [ "label" => _x( "H", "Coaching Checklist Initial for: Heard", 'disciple-tools-coaching-checklist' ) ],
-                    "assist" => [ "label" => _x( "O", "Coaching Checklist Initial for: Obeyed", 'disciple-tools-coaching-checklist' ) ],
-                    "watch" => [ "label" => _x( "S", "Coaching Checklist Initial for: Shared", 'disciple-tools-coaching-checklist' ) ],
-                    "leave" => [ "label" => _x( "T", "Coaching Checklist Initial for: Trained", 'disciple-tools-coaching-checklist' ) ],
-                ];
-
-                $coaching_checklist_items = [
-                    "Duckling Discipleship" => _x( "Duckling Discipleship", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Tell Your Story (testimony)" => _x( "Tell Your Story (testimony)", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Tell God's Story (gospel)" => _x( "Tell God's Story (gospel)", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "List of 100" => _x( "List of 100", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Pace" => _x( "Pace", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Non-Sequential Ministry" => _x( "Non-Sequential Ministry", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "3/3 Group Format" => _x( "3/3 Group Format", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Simple Church" => _x( "Simple Church", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Being Part of Two Churches" => _x( "Being Part of Two Churches", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Training Cycle" => _x( "Training Cycle", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Accountability Groups" => _x( "Accountability Groups", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "SOAPS" => _x( "SOAPS", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Prayer Wheel" => _x( "Prayer Wheel", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Spiritual Breathing" => _x( "Spiritual Breathing", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Persecution & Suffering" => _x( "Persecution & Suffering", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Eyes to See Where the Kingdom Isn't" => _x( "Eyes to See Where the Kingdom Isn't", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Person of Peace" => _x( "Person of Peace", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Prayer Walking" => _x( "Prayer Walking", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Baptism" => _x( "Baptism", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Lord's Supper" => _x( "Lord's Supper", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Coaching Checklist" => _x( "Coaching Checklist", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Leadership Cells" => _x( "Leadership Cells", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Peer Mentoring Group" => _x( "Peer Mentoring Group", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Four Fields Tool" => _x( "Four Fields Tool", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                    "Generational Mapping" => _x( "Generational Mapping", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                ];
-                foreach ( $coaching_checklist_items as $item_key => $item_label ){
-                    $fields["coaching_checklist_" . dt_create_field_key( $item_key ) ] = [
-                        "name" => $item_label,
-                        "default" => $options,
-                        "tile" => "coaching_checklist",
-                        "type" => "multi_select",
-                        "hidden" => true,
-                        "custom_display" => true,
-
-                    ];
-                }
-            }
-            return $fields;
-        }
-        add_action( "dt_details_additional_section", "dt_add_section", 30, 2 );
-        function dt_add_section( $section, $post_type ) {
-            if ( $section === "coaching_checklist" && $post_type === "contacts" ) {
-                $post_fields = DT_Posts::get_post_field_settings( $post_type );
-                $post = DT_Posts::get_post( $post_type, get_the_ID() );
-
-                $total_done = 0;
-                $total = 0;
-                foreach ($post_fields as $field_key => $field_options ) {
-                    if ( isset( $field_options["tile"] ) && $field_options["tile"] === "coaching_checklist" ) {
-                        $total += sizeof( $field_options["default"] );
-                        if ( isset( $post[$field_key] ) ){
-                            $total_done += sizeof( $post[$field_key] );
-                        }
-                    }
-                }
-                ?>
-                <p><?php esc_html_e( 'Completed', 'disciple-tools-coaching-checklist' ); ?> <?php echo esc_html( $total_done ); ?>/<?php echo esc_html( $total ); ?></p>
-                <?php
-
-                foreach ($post_fields as $field_key => $field_options ) :
-                    if ( isset( $field_options["tile"] ) && $field_options["tile"] === "coaching_checklist" ) :
-                        $post_fields[$field_key]["hidden"] = false;
-                        $post_fields[$field_key]["custom_display"] = false;
-
-                        ?>
-                        <div style="display: flex">
-                            <div style="flex-grow: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
-                                <?php echo esc_html( $field_options["name"] ); ?>
-                            </div>
-                            <div style="">
-                                <div class="small button-group" style="display: inline-block; margin-bottom: 5px">
-                                    <?php foreach ( $post_fields[$field_key]["default"] as $option_key => $option_value ): ?>
-                                        <?php
-                                        $class = ( in_array( $option_key, $post[$field_key] ?? [] ) ) ?
-                                            "selected-select-button" : "empty-select-button"; ?>
-                                      <button id="<?php echo esc_html( $option_key ) ?>" type="button" data-field-key="<?php echo esc_html( $field_key ); ?>"
-                                              class="dt_multi_select <?php echo esc_html( $class ) ?> select-button button " style="padding:5px">
-                                          <?php echo esc_html( $post_fields[$field_key]["default"][$option_key]["label"] ) ?>
-                                      </button>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endif;
-                    endforeach; ?>
-
-        <?php }
-        }
+    /**
+     * Method that runs only when the plugin is activated.
+     *
+     * @since  0.1
+     * @access public
+     * @return void
+     */
+    public static function activation() {
     }
 
-    public function dt_plugin_hook_admin_notice(){
+    /**
+     * Method that runs only when the plugin is deactivated.
+     *
+     * @since  0.1
+     * @access public
+     * @return void
+     */
+    public static function deactivation() {
+        delete_option( 'dismissed-dt-coaching-checklist' );
+    }
+
+    /**
+     * Loads the translation files.
+     *
+     * @since  0.1
+     * @access public
+     * @return void
+     */
+    public function i18n() {
+        $domain = 'disciple-tools-coaching-checklist'; // this must be the same as the slug for the plugin
+        load_plugin_textdomain( $domain, false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ). 'languages' );
+    }
+
+    /**
+     * Magic method to output a string if trying to use the object as a string.
+     *
+     * @since  0.1
+     * @access public
+     * @return string
+     */
+    public function __toString() {
+        return 'disciple-tools-coaching-checklist';
+    }
+
+    /**
+     * Magic method to keep the object from being cloned.
+     *
+     * @since  0.1
+     * @access public
+     * @return void
+     */
+    public function __clone() {
+        _doing_it_wrong( __FUNCTION__, 'Whoah, partner!', '0.1' );
+    }
+
+    /**
+     * Magic method to keep the object from being unserialized.
+     *
+     * @since  0.1
+     * @access public
+     * @return void
+     */
+    public function __wakeup() {
+        _doing_it_wrong( __FUNCTION__, 'Whoah, partner!', '0.1' );
+    }
+
+    /**
+     * Magic method to prevent a fatal error when calling a method that doesn't exist.
+     *
+     * @param string $method
+     * @param array $args
+     * @return null
+     * @since  0.1
+     * @access public
+     */
+    public function __call( $method = '', $args = array() ) {
+        _doing_it_wrong( "dt_coaching_checklist::" . esc_html( $method ), 'Method does not exist.', '0.1' );
+        unset( $method, $args );
+        return null;
+    }
+}
+
+
+// Register activation hook.
+register_activation_hook( __FILE__, [ 'DT_Coaching_Checklist', 'activation' ] );
+register_deactivation_hook( __FILE__, [ 'DT_Coaching_Checklist', 'deactivation' ] );
+
+
+if ( ! function_exists( 'dt_coaching_checklist_hook_admin_notice' ) ) {
+    function dt_coaching_checklist_hook_admin_notice() {
+        global $dt_coaching_checklist_required_dt_theme_version;
         $wp_theme = wp_get_theme();
         $current_version = $wp_theme->version;
-        $message = "'Disciple Tools - " . self::$plugin_name . "' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.";
-        if ( strpos( $wp_theme->get_template(), "disciple-tools-theme" ) !== false || $wp_theme->name === "Disciple Tools" ) {
-            $message .= sprintf( esc_html__( 'Current Disciple Tools version: %1$s, required version: %2$s', 'dt_plugin' ), esc_html( $current_version ), esc_html( self::$required_dt_theme_version ) );
+        $message = "'Disciple Tools - Coaching Checklist' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.";
+        if ( $wp_theme->get_template() === "disciple-tools-theme" ){
+            $message .= ' ' . sprintf( esc_html( 'Current Disciple Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $dt_coaching_checklist_required_dt_theme_version ) );
         }
-        $key = dt_create_field_key( self::$plugin_name );
         // Check if it's been dismissed...
-        if ( ! get_option( 'dismissed-' . $key, false ) ) { ?>
-            <div class="notice notice-error notice-<?php echo esc_html( $key ); ?> is-dismissible" data-notice="<?php echo esc_html( $key ); ?>">
+        if ( ! get_option( 'dismissed-dt-coaching-checklist', false ) ) { ?>
+            <div class="notice notice-error notice-dt-coaching-checklist is-dismissible" data-notice="dt-coaching-checklist">
                 <p><?php echo esc_html( $message );?></p>
             </div>
             <script>
-              jQuery(function($) {
-                $( document ).on( 'click', '.notice-<?php echo esc_html( $key ); ?> .notice-dismiss', function () {
-                  $.ajax( ajaxurl, {
-                    type: 'POST',
-                    data: {
-                      action: 'dismissed_notice_handler',
-                      type: '<?php echo esc_html( $key ); ?>',
-                      security: '<?php echo esc_html( wp_create_nonce( 'wp_rest_dismiss' ) ) ?>'
-                    }
-                  })
+                jQuery(function($) {
+                    $( document ).on( 'click', '.notice-dt-coaching-checklist .notice-dismiss', function () {
+                        $.ajax( ajaxurl, {
+                            type: 'POST',
+                            data: {
+                                action: 'dismissed_notice_handler',
+                                type: 'dt-coaching-checklist',
+                                security: '<?php echo esc_html( wp_create_nonce( 'wp_rest_dismiss' ) ) ?>'
+                            }
+                        })
+                    });
                 });
-              });
             </script>
         <?php }
     }
-
 }
+
 /**
  * AJAX handler to store the state of dismissible notices.
  */
-if ( !function_exists( "dt_hook_ajax_notice_handler" )){
+if ( ! function_exists( "dt_hook_ajax_notice_handler" )){
     function dt_hook_ajax_notice_handler(){
         check_ajax_referer( 'wp_rest_dismiss', 'security' );
         if ( isset( $_POST["type"] ) ){
@@ -219,7 +240,3 @@ if ( !function_exists( "dt_hook_ajax_notice_handler" )){
         }
     }
 }
-
-
-
-
