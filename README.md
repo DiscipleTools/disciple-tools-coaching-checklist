@@ -3,4 +3,4 @@
 # Disciple Tools - Coaching Checklist
 
 ## Purpose
-A tile to track the progress of a contact using the coaching checklist. Inspired by Zume's coaching chekclist: https://zume.training/coaching-checklist/
+A tile to track the progress of a contact using the coaching checklist. Inspired by Zúme's coaching checklist: https://zume.training/coaching-checklist/
