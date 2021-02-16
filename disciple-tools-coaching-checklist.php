@@ -5,7 +5,7 @@
  * Description: Disciple Tools - Coaching Checklist is intended to help developers and integrator jumpstart their extension of the Disciple Tools system.
  * Text Domain: disciple-tools-coaching-checklist
  * Domain Path: /languages
- * Version:  0.1
+ * Version:  0.2
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-coaching-checklist
  * Requires at least: 4.7.0
@@ -16,16 +16,6 @@
  * @link    https://github.com/DiscipleTools
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
- */
-
-/**
- * Refactoring (renaming) this plugin as your own:
- * 1. @todo Refactor all occurrences of the name DT_Coaching_Checklist, dt_coaching_checklist, dt-coaching-checklist, plugin-starter-template, coaching_checklist, and Coaching Checklist
- * 2. @todo Rename the `disciple-tools-coaching-checklist.php and menu-and-tabs.php files.
- * 3. @todo Update the README.md and LICENSE
- * 4. @todo Update the default.pot file if you intend to make your plugin multilingual. Use a tool like POEdit
- * 5. @todo Change the translation domain to in the phpcs.xml your plugin's domain: @todo
- * 6. @todo Replace the 'sample' namespace in this and the rest-api.php files
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -90,22 +80,6 @@ class DT_Coaching_Checklist {
          * To remove: delete the line below and remove the folder named /languages
          */
         $this->i18n();
-
-        if ( is_admin() ){
-            if ( ! class_exists( 'Puc_v4_Factory' ) ) {
-                require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
-            }
-
-            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/version-control.json";
-
-            Puc_v4_Factory::buildUpdateChecker(
-                $hosted_json,
-                __FILE__,
-                'disciple-tools-coaching-checklist' // change this token
-            );
-        }
-
-
     }
 
     /**
@@ -240,3 +214,27 @@ if ( ! function_exists( "dt_hook_ajax_notice_handler" )){
         }
     }
 }
+
+/**
+ * Check for plugin updates even when the active theme is not Disciple.Tools
+ * This enables updates on multisites where the active theme is not Disciple.Tools
+ */
+add_action( 'plugins_loaded', function (){
+    if ( is_admin() ){
+        // Check for plugin updates
+        if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+            if ( file_exists( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' )){
+                require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
+            }
+        }
+        if ( class_exists( 'Puc_v4_Factory' ) ){
+            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/version-control.json";
+
+            Puc_v4_Factory::buildUpdateChecker(
+                $hosted_json,
+                __FILE__,
+                'disciple-tools-coaching-checklist' // change this token
+            );
+        }
+    }
+} );
