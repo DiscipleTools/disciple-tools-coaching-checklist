@@ -5,7 +5,7 @@
  * Description: Disciple Tools - Coaching Checklist is intended to help developers and integrator jumpstart their extension of the Disciple Tools system.
  * Text Domain: disciple-tools-coaching-checklist
  * Domain Path: /languages
- * Version:  0.2
+ * Version:  0.1
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-coaching-checklist
  * Requires at least: 4.7.0
