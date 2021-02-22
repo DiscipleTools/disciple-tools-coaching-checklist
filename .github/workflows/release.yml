@@ -23,7 +23,7 @@ jobs:
     - name: Build project
       run: |
         mkdir disciple-tools-coaching-checklist |
-        cp -r disciple-tools-coaching-checklist.php LICENSE tile languages disciple-tools-coaching-checklist/ |
+        cp -r disciple-tools-coaching-checklist.php LICENSE tile languages version-control.json disciple-tools-coaching-checklist/ |
         zip -r disciple-tools-coaching-checklist.zip disciple-tools-coaching-checklist
     - name: Create Release
       id: create_release
