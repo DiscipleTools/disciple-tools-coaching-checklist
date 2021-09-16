@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-coaching-checklist.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-coaching-checklist)
 
-![Coaching Checklist](https://raw.githubusercontent.com/prykon/disciple-tools-coaching-checklist/master/images/coaching-checklist-banner.png)
+![Coaching Checklist](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/images/coaching-checklist-banner.png)
 # Disciple Tools - Coaching Checklist
 
 ## Purpose
