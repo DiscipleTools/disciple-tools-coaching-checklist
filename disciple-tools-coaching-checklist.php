@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Disciple Tools - Coaching Checklist
+ * Plugin Name: Disciple.Tools - Coaching Checklist
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-coaching-checklist
  * Description: Disciple Tools - Coaching Checklist is intended to help developers and integrator jumpstart their extension of the Disciple Tools system.
  * Text Domain: disciple-tools-coaching-checklist
