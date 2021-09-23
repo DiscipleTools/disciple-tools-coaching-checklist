@@ -2,7 +2,7 @@
 /**
  *Plugin Name: Disciple.Tools - Coaching Checklist
  * Plugin URI: https://github.com/DiscipleTools/disciple-tools-coaching-checklist
- * Description: Disciple Tools - Coaching Checklist is intended to help developers and integrator jumpstart their extension of the Disciple Tools system.
+ * Description: Disciple.Tools - Coaching Checklist is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system.
  * Text Domain: disciple-tools-coaching-checklist
  * Domain Path: /languages
  * Version:  v0.1.2
@@ -175,9 +175,9 @@ if ( ! function_exists( 'dt_coaching_checklist_hook_admin_notice' ) ) {
         global $dt_coaching_checklist_required_dt_theme_version;
         $wp_theme = wp_get_theme();
         $current_version = $wp_theme->version;
-        $message = "'Disciple Tools - Coaching Checklist' plugin requires 'Disciple Tools' theme to work. Please activate 'Disciple Tools' theme or make sure it is latest version.";
+        $message = "'Disciple.Tools - Coaching Checklist' plugin requires 'Disciple.Tools' theme to work. Please activate 'Disciple.Tools' theme or make sure it is latest version.";
         if ( $wp_theme->get_template() === "disciple-tools-theme" ){
-            $message .= ' ' . sprintf( esc_html( 'Current Disciple Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $dt_coaching_checklist_required_dt_theme_version ) );
+            $message .= ' ' . sprintf( esc_html( 'Current Disciple.Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $dt_coaching_checklist_required_dt_theme_version ) );
         }
         // Check if it's been dismissed...
         if ( ! get_option( 'dismissed-dt-coaching-checklist', false ) ) { ?>
