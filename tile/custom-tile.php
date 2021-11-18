@@ -39,41 +39,73 @@ class DT_Coaching_Checklist_Tile
     public function dt_custom_fields( array $fields, string $post_type = "" ) {
         if ( $post_type === "contacts" ){
             $options = [
-                "model" => [ "label" => _x( "H", "Coaching Checklist Initial for: Heard", 'disciple-tools-coaching-checklist' ) ],
-                "assist" => [ "label" => _x( "O", "Coaching Checklist Initial for: Obeyed", 'disciple-tools-coaching-checklist' ) ],
-                "watch" => [ "label" => _x( "S", "Coaching Checklist Initial for: Shared", 'disciple-tools-coaching-checklist' ) ],
-                "leave" => [ "label" => _x( "T", "Coaching Checklist Initial for: Trained", 'disciple-tools-coaching-checklist' ) ],
+                "h" => [ "label" => _x( "H", "Coaching Checklist Initial for: Heard", 'disciple-tools-coaching-checklist' ) ],
+                "o" => [ "label" => _x( "O", "Coaching Checklist Initial for: Obeyed", 'disciple-tools-coaching-checklist' ) ],
+                "s" => [ "label" => _x( "S", "Coaching Checklist Initial for: Shared", 'disciple-tools-coaching-checklist' ) ],
+                "t" => [ "label" => _x( "T", "Coaching Checklist Initial for: Trained", 'disciple-tools-coaching-checklist' ) ],
             ];
 
             $coaching_checklist_items = [
-                "Duckling Discipleship" => _x( "Duckling Discipleship", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Tell Your Story (testimony)" => _x( "Tell Your Story (testimony)", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Tell God's Story (gospel)" => _x( "Tell God's Story (gospel)", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "List of 100" => _x( "List of 100", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Pace" => _x( "Pace", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Non-Sequential Ministry" => _x( "Non-Sequential Ministry", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "3/3 Group Format" => _x( "3/3 Group Format", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Simple Church" => _x( "Simple Church", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Being Part of Two Churches" => _x( "Being Part of Two Churches", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Training Cycle" => _x( "Training Cycle", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Accountability Groups" => _x( "Accountability Groups", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "SOAPS" => _x( "SOAPS", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Prayer Wheel" => _x( "Prayer Wheel", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Spiritual Breathing" => _x( "Spiritual Breathing", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Persecution & Suffering" => _x( "Persecution & Suffering", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Eyes to See Where the Kingdom Isn't" => _x( "Eyes to See Where the Kingdom Isn't", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Person of Peace" => _x( "Person of Peace", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Prayer Walking" => _x( "Prayer Walking", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Baptism" => _x( "Baptism", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Lord's Supper" => _x( "Lord's Supper", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Coaching Checklist" => _x( "Coaching Checklist", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Leadership Cells" => _x( "Leadership Cells", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Peer Mentoring Group" => _x( "Peer Mentoring Group", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Four Fields Tool" => _x( "Four Fields Tool", "coaching checklist", 'disciple-tools-coaching-checklist' ),
-                "Generational Mapping" => _x( "Generational Mapping", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 1 */
+//                1 => [
+//                    'label' => _x( "God Uses Ordinary People", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+//                    'description' => "You'll see how God uses ordinary people doing simple things to make a big impact.",
+//                    'url' => 'https://zume.training/god-uses-ordinary-people/'
+//                    ],
+                1 => _x( "God Uses Ordinary People", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                2 => _x( "Definition of Disciple & Church", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                3 => _x( "Breathing: Hearing & Obeying", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                4 => _x( "SOAPS Bible Reading", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                5 => _x( "Accountability Groups", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 2 */
+                6 => _x( "Consumer vs Producer Lifestyle", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                7 => _x( "Prayer Wheel (Hour in Prayer)", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                8 => _x( "Relational Stewardship (List 100)", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 3 */
+                9 => _x( "Kingdom Economy", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                10 => _x( "How to Share the Gospel", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                11 => _x( "How to Baptize", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 4 */
+                12 => _x( "3 Minute Testimony", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                13 => _x( "Greatest Blessing", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                14 => _x( "Duckling Discipleship", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                15 => _x( "Eyes to See Where the Kingdom Isn't", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                16 => _x( "Lord's Supper", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 5 */
+                17 => _x( "Prayer Walking", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                18 => _x( "Person of Peace", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                19 => _x( "BLESS Prayer Pattern", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 6 */
+                20 => _x( "Faithfulness is Better", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                21 => _x( "3/3 Group Format", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 7 */
+                22 => _x( "Training Cycle", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 8 */
+                23 => _x( "Leadership Cells", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 9 */
+                24 => _x( "Non-Sequential Growth", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                25 => _x( "Pace Matters", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                26 => _x( "Being Part of Two Churches", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
+                /* session 10 */
+                27 => _x( "Coaching Checklist", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                28 => _x( "Leadership in Networks", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                29 => _x( "Peer Mentoring Group", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                30 => _x( "Four Fields Tool", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+                31 => _x( "Generational Mapping", "coaching checklist", 'disciple-tools-coaching-checklist' ),
+
             ];
             foreach ( $coaching_checklist_items as $item_key => $item_label ){
-                $fields["coaching_checklist_" . dt_create_field_key( $item_key ) ] = [
+                $fields["coaching_checklist_" . $item_key ] = [
                     "name" => $item_label,
                     "default" => $options,
                     "tile" => "coaching_checklist",
