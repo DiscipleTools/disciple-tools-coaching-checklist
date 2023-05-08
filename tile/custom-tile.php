@@ -154,7 +154,7 @@ class DT_Coaching_Checklist_Tile
                                     <?php
                                     $class = ( in_array( $option_key, $post[$field_key] ?? [] ) ) ?
                                         'selected-select-button' : 'empty-select-button'; ?>
-                                    <button id="<?php echo esc_html( $option_key ) ?>" type="button" data-field-key="<?php echo esc_html( $field_key ); ?>"
+                                    <button id="<?php echo esc_html( $option_key ) ?>" value="<?php echo esc_html( $option_key ) ?>" type="button" data-field-key="<?php echo esc_html( $field_key ); ?>"
                                             class="dt_multi_select <?php echo esc_html( $class ) ?> select-button button " style="padding:5px">
                                         <?php echo esc_html( $post_fields[$field_key]['default'][$option_key]['label'] ) ?>
                                     </button>
