@@ -37,8 +37,8 @@ function dt_coaching_checklist() {
     /*
      * Check if the Disciple.Tools theme is loaded and is the latest required version
      */
-    $is_theme_dt = class_exists( "Disciple_Tools" );
-    if ( $is_theme_dt && version_compare( $version, $dt_coaching_checklist_required_dt_theme_version, "<" ) ) {
+    $is_theme_dt = class_exists( 'Disciple_Tools' );
+    if ( $is_theme_dt && version_compare( $version, $dt_coaching_checklist_required_dt_theme_version, '<' ) ) {
         add_action( 'admin_notices', 'dt_coaching_checklist_hook_admin_notice' );
         add_action( 'wp_ajax_dismissed_notice_handler', 'dt_hook_ajax_notice_handler' );
         return false;
@@ -158,7 +158,7 @@ class DT_Coaching_Checklist {
      * @access public
      */
     public function __call( $method = '', $args = array() ) {
-        _doing_it_wrong( "dt_coaching_checklist::" . esc_html( $method ), 'Method does not exist.', '0.1' );
+        _doing_it_wrong( 'dt_coaching_checklist::' . esc_html( $method ), 'Method does not exist.', '0.1' );
         unset( $method, $args );
         return null;
     }
@@ -176,7 +176,7 @@ if ( ! function_exists( 'dt_coaching_checklist_hook_admin_notice' ) ) {
         $wp_theme = wp_get_theme();
         $current_version = $wp_theme->version;
         $message = "'Disciple.Tools - Coaching Checklist' plugin requires 'Disciple.Tools' theme to work. Please activate 'Disciple.Tools' theme or make sure it is latest version.";
-        if ( $wp_theme->get_template() === "disciple-tools-theme" ){
+        if ( $wp_theme->get_template() === 'disciple-tools-theme' ){
             $message .= ' ' . sprintf( esc_html( 'Current Disciple.Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $dt_coaching_checklist_required_dt_theme_version ) );
         }
         // Check if it's been dismissed...
@@ -205,11 +205,11 @@ if ( ! function_exists( 'dt_coaching_checklist_hook_admin_notice' ) ) {
 /**
  * AJAX handler to store the state of dismissible notices.
  */
-if ( ! function_exists( "dt_hook_ajax_notice_handler" )){
+if ( ! function_exists( 'dt_hook_ajax_notice_handler' ) ){
     function dt_hook_ajax_notice_handler(){
         check_ajax_referer( 'wp_rest_dismiss', 'security' );
-        if ( isset( $_POST["type"] ) ){
-            $type = sanitize_text_field( wp_unslash( $_POST["type"] ) );
+        if ( isset( $_POST['type'] ) ){
+            $type = sanitize_text_field( wp_unslash( $_POST['type'] ) );
             update_option( 'dismissed-' . $type, true );
         }
     }
@@ -225,17 +225,17 @@ if ( ! function_exists( "dt_hook_ajax_notice_handler" )){
  * @see https://github.com/DiscipleTools/disciple-tools-version-control/wiki/How-to-Update-the-Starter-Plugin
  */
 add_action( 'plugins_loaded', function (){
-    if ( is_admin() && !( is_multisite() && class_exists( "DT_Multisite" ) ) || wp_doing_cron() ){
+    if ( is_admin() && !( is_multisite() && class_exists( 'DT_Multisite' ) ) || wp_doing_cron() ){
         if ( ! class_exists( 'Puc_v4_Factory' ) ) {
             // find the Disciple.Tools theme and load the plugin update checker.
             foreach ( wp_get_themes() as $theme ){
-                if ( $theme->get( 'TextDomain' ) === "disciple_tools" && file_exists( $theme->get_stylesheet_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' ) ){
+                if ( $theme->get( 'TextDomain' ) === 'disciple_tools' && file_exists( $theme->get_stylesheet_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' ) ){
                     require( $theme->get_stylesheet_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
                 }
             }
         }
         if ( class_exists( 'Puc_v4_Factory' ) ){
-            $hosted_json = "https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/version-control.json";
+            $hosted_json = 'https://raw.githubusercontent.com/DiscipleTools/disciple-tools-coaching-checklist/master/version-control.json';
 
             Puc_v4_Factory::buildUpdateChecker(
                 $hosted_json,
